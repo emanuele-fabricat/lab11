@@ -1,5 +1,6 @@
 package it.unibo.oop.lab.streams;
 
+import java.security.KeyStore.Entry;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -36,18 +37,17 @@ public final class MusicGroupImpl implements MusicGroup {
 
     @Override
     public Stream<String> albumNames() {
-        
-        return null;
+        return this.albums.keySet().stream();
     }
 
     @Override
     public Stream<String> albumInYear(final int year) {
-        return null;
+        return this.albums.entrySet().stream().filter(o -> o.getValue().equals(year)).map(o -> o.getKey());//map(Entry :: getkay())
     }
 
     @Override
     public int countSongs(final String albumName) {
-        return -1;
+        return (int) this.songs.stream().filter(o -> o.getAlbumName().isPresent()).filter(s -> s.getAlbumName().get().equals(albumName)).count();
     }
 
     @Override
