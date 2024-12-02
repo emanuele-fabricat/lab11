@@ -7,7 +7,11 @@ import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.Toolkit;
 import java.io.DataInputStream;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.function.Function;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.swing.BorderFactory;
@@ -35,14 +39,24 @@ import javax.swing.JTextArea;
 public final class LambdaFilter extends JFrame {
 
     private static final long serialVersionUID = 1760990730218643730L;
-
+    private static final String ALL_THAT_ISN_T_A_WORD = "[\\p{Punct}\\s]+";
     private enum Command {
         /**
          * Commands.
          */
         IDENTITY("No modifications", Function.identity()),
         TO_LOWERCASE("Convert to lowercase", (String :: toLowerCase)),
-        LINES_NUMBER("Count the number of lines", );
+        CHARS_NUMBER("Count the number of chars", s -> String.valueOf(s.length())),
+        LINES_NUMBER("Count the number of lines", s -> String.valueOf(s.split("\n").length)),
+        ALPHABETIC_ORDER("List all the words in alphabetical order", s ->
+                Arrays.stream(s.split(ALL_THAT_ISN_T_A_WORD))
+                .sorted()
+                .collect(Collectors.joining("\n"))),
+        WORDS_COUNT("Count of each words", s -> 
+                Arrays.stream(s.split(ALL_THAT_ISN_T_A_WORD))
+                .collect(Collectors.groupingBy(String :: toString, Collectors.counting()))
+                .entrySet()
+                .toString());
 
         private final String commandName;
         private final Function<String, String> fun;
