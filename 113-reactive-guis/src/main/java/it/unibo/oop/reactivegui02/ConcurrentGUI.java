@@ -15,6 +15,7 @@ import javax.swing.SwingUtilities;
  */
 @SuppressWarnings("PMD.AvoidPrintStackTrace")
 public final class ConcurrentGUI extends JFrame {
+    private static final long serialVersionUID = 1L;
     private static final double WIDTH_PERC = 0.2;
     private static final double HEIGHT_PERC = 0.1;
     private static final int COUNT_STOP = 0;
@@ -25,7 +26,6 @@ public final class ConcurrentGUI extends JFrame {
     private final JButton up = new JButton("up");
     private final JButton down = new JButton("down");
     private final JButton stop = new JButton("stop");
-    private final Agent agent = new Agent();
 
     /**
      * constructor of the GUI.
@@ -40,6 +40,7 @@ public final class ConcurrentGUI extends JFrame {
         this.canva.add(this.down);
         this.canva.add(this.stop);
         this.setVisible(true);
+        final Agent agent = new Agent();
         this.up.addActionListener((e) -> agent.changeMode(COUNT_UP));
         this.down.addActionListener((e) -> agent.changeMode(COUNT_DOWN));
         this.stop.addActionListener((e) -> agent.changeMode(COUNT_STOP));
@@ -61,7 +62,7 @@ public final class ConcurrentGUI extends JFrame {
                     switch (mode) {
                         case COUNT_UP -> this.counter++;
                         case COUNT_DOWN -> this.counter--;
-                        default -> this.counter++;
+                        default -> this.counter = 0;
                     }
                     Thread.sleep(100);
                 } catch (InvocationTargetException | InterruptedException ex) {
