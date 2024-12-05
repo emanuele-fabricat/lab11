@@ -20,7 +20,6 @@ public final class ConcurrentGUI extends JFrame {
     private static final int COUNT_STOP = 0;
     private static final int COUNT_UP = 1;
     private static final int COUNT_DOWN = 2;
-    
     private final JPanel canva = new JPanel();
     private final JLabel counter = new JLabel("0");
     private final JButton up = new JButton("up");
@@ -29,7 +28,7 @@ public final class ConcurrentGUI extends JFrame {
     private final Agent agent = new Agent();
 
     /**
-     * constructor of the GUI
+     * constructor of the GUI.
      */
     public ConcurrentGUI() {
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -47,7 +46,7 @@ public final class ConcurrentGUI extends JFrame {
         new Thread(agent).start();
     }
 
-    private class Agent implements Runnable {
+    private final class Agent implements Runnable {
         private volatile int mode = COUNT_UP;
         private int counter;
 
@@ -59,9 +58,10 @@ public final class ConcurrentGUI extends JFrame {
                     // The EDT doesn't access `counter` anymore, it doesn't need to be volatile 
                     final var nextText = Integer.toString(this.counter);
                     SwingUtilities.invokeAndWait(() -> ConcurrentGUI.this.counter.setText(nextText));
-                    switch(mode) {
+                    switch (mode) {
                         case COUNT_UP -> this.counter++;
                         case COUNT_DOWN -> this.counter--;
+                        default -> this.counter++;
                     }
                     Thread.sleep(100);
                 } catch (InvocationTargetException | InterruptedException ex) {
