@@ -1,6 +1,5 @@
 package it.unibo.oop.reactivegui02;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.lang.reflect.InvocationTargetException;
@@ -36,11 +35,10 @@ public final class ConcurrentGUI extends JFrame {
         this.setSize((int) (screen.getWidth() * WIDTH_PERC), (int) (screen.getHeight() * HEIGHT_PERC));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.add(this.canva);
-        this.canva.setLayout(new BorderLayout());
-        this.canva.add(this.counter, BorderLayout.CENTER);
-        this.canva.add(this.up, BorderLayout.EAST);
-        this.canva.add(this.down, BorderLayout.WEST);
-        this.canva.add(this.stop, BorderLayout.SOUTH);
+        this.canva.add(this.counter);
+        this.canva.add(this.up);
+        this.canva.add(this.down);
+        this.canva.add(this.stop);
         this.setVisible(true);
         final Agent agent = new Agent();
         this.up.addActionListener((e) -> agent.changeMode(COUNT_UP));
