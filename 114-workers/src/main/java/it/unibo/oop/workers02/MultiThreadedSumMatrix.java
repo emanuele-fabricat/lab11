@@ -1,10 +1,13 @@
 package it.unibo.oop.workers02;
 
+//import java.lang.annotation.Inherited;
 import java.util.List;
 import java.util.stream.IntStream;
-
-public class MultiThreadedSumMatrix implements SumMatrix{
-    private int nThreads;
+/**
+ * primary class.
+ */
+public final class MultiThreadedSumMatrix implements SumMatrix {
+    private final int nThreads;
 
     /**
      * @param nThreads number of thread performing the sum.
@@ -20,7 +23,7 @@ public class MultiThreadedSumMatrix implements SumMatrix{
         private double res;
 
         /**
-         * @param matrix the list to sum
+         * @param list the list to sum
          * 
          * @param startpos the initial position for this worker
          * 
@@ -33,6 +36,7 @@ public class MultiThreadedSumMatrix implements SumMatrix{
             this.nelem = nelem;
         }
 
+        @Override
         public void run() {
             for (int i = startpos; i < list.size() && i < startpos + nelem; i++) {
                 this.res += this.list.get(i);
@@ -47,9 +51,8 @@ public class MultiThreadedSumMatrix implements SumMatrix{
     }
 
     @Override
-    public double sum(double[][] matrix) {
+    public double sum(final double[][] matrix) {
         final MatrixToArray transformer = new MatrixToArray(matrix, this.nThreads);
-        
         final int size = transformer.getSize();
         return IntStream
                 .iterate(0, start -> start + size)

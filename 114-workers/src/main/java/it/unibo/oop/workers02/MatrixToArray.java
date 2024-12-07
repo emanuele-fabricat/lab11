@@ -4,10 +4,13 @@ package it.unibo.oop.workers02;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
+/**
+ * A class that is made to transform the matrix in a array.
+ * Also extract size an utility field that used in MultiThreadedSumMatrix.sum.
+ */
 public class MatrixToArray {
-    final private List<Double> list;
-    final private int size;
+    private final List<Double> list;
+    private final int size;
 
     /**
      * 
@@ -22,14 +25,18 @@ public class MatrixToArray {
                 .collect(Collectors.toList());
         this.size = list.size() % nThread + list.size() / nThread;
     }
-
+    /**
+     * 
+     * @return the size.
+     */
     public int getSize() {
         return size;
     }
-
+    /**
+     * 
+     * @return the list.
+     */
     public List<Double> getList() {
-        return list;
+        return List.copyOf(list);
     }
-
-    
 }
